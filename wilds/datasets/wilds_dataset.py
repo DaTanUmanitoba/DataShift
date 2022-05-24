@@ -337,6 +337,9 @@ class WILDSDataset:
         version_file = os.path.join(data_dir, f'RELEASE_v{self.version}.txt')
 
         # If the dataset exists at root_dir, then don't download.
+        #print("!!!!!!!!!!!!!!!!!!!")
+        #print(data_dir)
+        #print(version_file)
         if not self.dataset_exists_locally(data_dir, version_file):
             self.download_dataset(data_dir, download)
         return data_dir
@@ -347,6 +350,9 @@ class WILDSDataset:
         # 1. Automatically through the WILDS package
         # 2. From a third party (e.g. OGB-MolPCBA is downloaded through the OGB package)
         # Datasets downloaded from a third party need not have a download_url and RELEASE text file.
+        #print(data_dir)
+        #print(os.path.exists(data_dir))
+        #print(os.path.exists(version_file))
         return (
             os.path.exists(data_dir) and (
                 os.path.exists(version_file) or
@@ -503,9 +509,44 @@ class WILDSSubset(WILDSDataset):
                 x = self.transform(x)
         return x, y, metadata
 
+    def __get_all_transformed_items__(self):
+        x = np.zeros( (len(self.indices), 300,2 ) , dtype=np.int64 ) #[], [], []
+        y = np.zeros(len(self.indices) , dtype=int)
+        metadata = np.zeros( (len(self.indices), 17) , dtype=int )
+        for idx in range(len(self.indices)):
+            x1, y1, meta1 = self.__getitem__(idx)
+            x[idx] = x1
+            y[idx] = y1
+            metadata[idx] = meta1
+        return x, y, metadata
+        #return np.array(x), np.array(y), np.array(metadata)
+        #return torch.tensor(np.array(x)), torch.tensor(np.array(y)), torch.tensor(np.array(metadata))
+        #return torch.tensor(x), torch.tensor(y), torch.tensor(metadata)
+
+    def __get_all_original_items__(self):
+        x, y, metadata =  [], [], []
+        for idx in range(len(self.indices)):
+            x1, y1, meta1 = self.__getitem__(idx)
+            x.append(x1)
+            y.append(y1)
+            metadata.append(meta1)
+        return x, y, metadata
+        #return np.array(x), np.array(y), np.array(metadata)
+        #return torch.tensor(np.array(x)), torch.tensor(np.array(y)), torch.tensor(np.array(metadata))
+        #return torch.tensor(x), torch.tensor(y), torch.tensor(metadata)
+
     def __len__(self):
         return len(self.indices)
 
+    '''
+    def write2file(self, file):
+        for idx in range(len(self.indices)):
+            x1, y1, meta1 = self.__getitem__(idx)
+            x[idx] = x1
+            y[idx] = y1
+            metadata[idx] = meta1
+    '''
+    
     @property
     def split_array(self):
         return self.dataset._split_array[self.indices]
