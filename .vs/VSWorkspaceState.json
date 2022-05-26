@@ -1,11 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\examples",
     "\\tests",
     "\\wilds",
     "\\wilds\\common",
     "\\wilds\\datasets"
   ],
-  "SelectedNode": "\\tests\\civil_amazon_preprocess_test.py",
+  "SelectedNode": "\\tests\\get_sub_dataset.py",
   "PreviewInSolutionExplorer": false
 }
