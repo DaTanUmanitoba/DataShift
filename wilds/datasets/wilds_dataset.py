@@ -332,6 +332,7 @@ class WILDSDataset:
         """
         self.check_version()
 
+        print(root_dir)
         os.makedirs(root_dir, exist_ok=True)
         data_dir = os.path.join(root_dir, f'{self.dataset_name}_v{self.version}')
         version_file = os.path.join(data_dir, f'RELEASE_v{self.version}.txt')

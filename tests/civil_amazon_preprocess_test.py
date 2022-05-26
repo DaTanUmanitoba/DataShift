@@ -1,6 +1,8 @@
+import wilds
 from requests import head
 from wilds import get_dataset
 from wilds.common.data_loaders import get_train_loader
+import torchvision
 import torchvision.transforms as transforms
 import numpy as np
 import pandas as pd
@@ -12,7 +14,6 @@ import argparse
 import pandas as pd
 import torch
 import torch.nn as nn
-import torchvision
 import sys
 from collections import defaultdict
 from sklearn.model_selection import train_test_split
@@ -160,10 +161,11 @@ def main():
     config = populate_defaults(config)
 
     # Load the full dataset, and download it if necessary
-    full_dataset = get_dataset(  dataset="civilcomments", 
-                        version='1.0',
-                        download=False,
-                        root_dir = "D:/distributionShiftAmazonData/data/civilComments/"
+    full_dataset = get_dataset(  
+                        dataset=config.dataset, #"civilcomments", 
+                        version=config.version, #'1.0',
+                        download=config.download, #False,
+                        root_dir = config.root_dir # "D:/distributionShiftAmazonData/data/civilComments/"
                     )
 
     ## get the split info and write to a csv
@@ -214,6 +216,7 @@ def main():
     #take  fraction of the training dataset, and transform it using the bert algorithm
     np.random.seed(1)
     
+    '''
     train_data = full_dataset.get_subset(
         "train",
         frac=1,
@@ -221,7 +224,7 @@ def main():
         #do_transform_y=True,
     )
     print(len(train_data.split_array)) ##number of samples in the train data
-    
+    '''
 
     eval_data = full_dataset.get_subset(
         "val",
@@ -239,7 +242,7 @@ def main():
     print(eval_data.indices)
     print(eval_data.dataset)
     #x,y,meta = eval_data.__getitem__(0)
-    x, y, meta = eval_data.__get_all_items__()
+    x, y, meta = eval_data.__get_all_transformed_items__()
     print(x[0])
     print(x.shape)
     print(y[0])
