@@ -2,11 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\examples",
-    "\\tests",
     "\\wilds",
     "\\wilds\\common",
     "\\wilds\\datasets"
   ],
-  "SelectedNode": "\\tests\\get_sub_dataset.py",
+  "SelectedNode": "\\wilds\\datasets\\wilds_dataset.py",
   "PreviewInSolutionExplorer": false
 }

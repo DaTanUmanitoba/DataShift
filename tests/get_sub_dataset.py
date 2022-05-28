@@ -1,7 +1,6 @@
 from wilds import get_dataset
 import os
 import numpy as np
-import pandas as pd
 from datatable import dt
 
 def get_data(dataset,  root_dir, split_scheme, version=None, out_dir=None, frac=1.0, download=False, data_frame=True):
